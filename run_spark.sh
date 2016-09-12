@@ -5,7 +5,7 @@ if [ $# -ne 0 ]; then
     exit 1
 fi
 
-/bin/spark-submit \
+$SPARK_HOME/bin/spark-submit \
     --class WordCountApp \
     --master local[2] \
     target/scala-2.11/spark-wc_2.11-1.0.jar \
