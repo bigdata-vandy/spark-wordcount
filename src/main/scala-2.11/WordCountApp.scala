@@ -8,12 +8,16 @@ import org.apache.spark.SparkConf
 object WordCountApp {
 
   def main(args: Array[String]) {
-    val textFile = "spark_read_me.txt"
+    if (args.length != 1) {
+     System.err.println("Requires HDFS input(s) as argument")
+     System.exit(1)
+    }
+    val textFileName: String = args(0)
     val conf = new SparkConf()
       .setAppName("Word Count Application")
       .setMaster("local[*]")
     val sc = new SparkContext(conf)
-    val textData = sc.textFile(textFile, 2).cache()
+    val textData = sc.textFile(textFileName, 2).cache()
 
     val wordFrequencies = textData flatMap (_ split ("\\s+")
       map (word => (word, 1))) reduceByKey (_ + _)
