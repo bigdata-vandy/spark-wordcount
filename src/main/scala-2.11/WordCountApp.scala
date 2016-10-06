@@ -15,7 +15,6 @@ object WordCountApp {
     val textFileName: String = args(0)
     val conf = new SparkConf()
       .setAppName("Word Count Application")
-      .setMaster("local[*]")
     val sc = new SparkContext(conf)
     val textData = sc.textFile(textFileName, 2).cache()
 
