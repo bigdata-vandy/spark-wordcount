@@ -5,6 +5,8 @@ if [ $# -ne 0 ]; then
   exit 1
 fi
 
+echo $SPARK_HOME
+
 #input1=spark_read_me.txt
 input1=stack/productivity/Posts.xml
 
@@ -26,9 +28,7 @@ then
   # Run on a Spark standalone cluster in client deploy mode
   $SPARK_HOME/bin/spark-submit \
     --class WordCountApp \
-    --master spark://207.184.161.138:7077 \
-    --executor-memory 50m \
-    --total-executor-cores 100 \
+    --master spark://vmp741.vampire:7077 \
     $APP
 elif [ ${flag} == 2 ]
 then
@@ -38,6 +38,7 @@ then
     --master yarn \
     --deploy-mode cluster \
     --executor-memory 50m \
-    --num-executors 6 \
+    --driver-cores 1 \
+    --num-executors 2 \
     $APP
 fi
