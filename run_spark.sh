@@ -9,7 +9,8 @@ echo $SPARK_HOME
 
 #input1=spark_read_me.txt
 #input1=stack/math.stackexchange.com/Posts.xml.gz
-input1=stack/stackoverflow.stackexchange.com/Comments.xml.gz
+#input1=stack/stackoverflow.stackexchange.com/Comments.xml.gz
+input1=stack/stackoverflow.stackexchange.com/Posts.xml.gz
 output_dir="hdfs:///user/arnoldjr/wordcount$(date +%Y-%m-%d_%H-%M-%S)"
 
 echo $output_dir
@@ -40,6 +41,7 @@ elif [ ${flag} == 2 ]; then
     --class WordCountApp \
     --master yarn \
     --deploy-mode cluster \
-    --executor-memory 1G \
+    --num-executors 5 \
+    --executor-cores 4 \
     $APP
 fi
