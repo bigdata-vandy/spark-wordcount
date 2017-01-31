@@ -24,14 +24,19 @@ object WordCountApp {
       map (word => (word, 1))) reduceByKey (_ + _)
 
 
-    wordFrequencies.saveAsTextFile(outputDir)
+    if (false)
+      wordFrequencies.saveAsTextFile(outputDir)
 
 
     // Prints results
-    if (false)
-      wordFrequencies.takeOrdered(50)(Ordering[Int].reverse.on(_._2))
-          .foreach(println)
+    if (true) {
+      val summary = wordFrequencies.takeOrdered(100)(Ordering[Int].
+        reverse.on(_._2))
+      summary.foreach(println)
 
-    println("hello")
+      val summaryRDD = sc.makeRDD(summary, 1)
+      summaryRDD.saveAsTextFile(outputDir)
+    }
+
   }
 }

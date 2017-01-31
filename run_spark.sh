@@ -11,9 +11,11 @@ echo $SPARK_HOME
 #input1=stack/math.stackexchange.com/Posts.xml.gz
 #input1=stack/stackoverflow.stackexchange.com/Comments.xml.gz
 input1=stack/stackoverflow.stackexchange.com/Posts.xml.gz
-output_dir="hdfs:///user/arnoldjr/wordcount$(date +%Y-%m-%d_%H-%M-%S)"
+output_dir="wordcount_$(date +%Y%m%d_%H%M%S)"
 
-echo $output_dir
+
+echo Reading input from $input1
+echo Writing output to $output_dir
 
 APP="
     target/scala-2.11/spark-wc_2.11-1.0.jar \
@@ -41,7 +43,7 @@ elif [ ${flag} == 2 ]; then
     --class WordCountApp \
     --master yarn \
     --deploy-mode cluster \
-    --num-executors 5 \
-    --executor-cores 4 \
+    --num-executors 25 \
+    --executor-cores 3 \
     $APP
 fi
