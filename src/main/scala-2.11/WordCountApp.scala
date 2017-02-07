@@ -18,25 +18,19 @@ object WordCountApp {
     val conf = new SparkConf()
       .setAppName("Word Count Application")
     val sc = new SparkContext(conf)
-    val textData = sc.textFile(textFileName, 2)
+    val textData = sc.textFile(textFileName)
 
     val wordFrequencies = textData flatMap (_ split ("\\s+")
       map (word => (word, 1))) reduceByKey (_ + _)
 
-
-    if (false)
-      wordFrequencies.saveAsTextFile(outputDir)
-
-
     // Prints results
-    if (true) {
-      val summary = wordFrequencies.takeOrdered(100)(Ordering[Int].
-        reverse.on(_._2))
-      summary.foreach(println)
+    val summary = wordFrequencies.takeOrdered(100)(Ordering[Int].
+      reverse.on(_._2))
+    summary.foreach(println)
 
-      val summaryRDD = sc.makeRDD(summary, 1)
-      summaryRDD.saveAsTextFile(outputDir)
-    }
+    // Writes results to file
+    val summaryRDD = sc.makeRDD(summary, 1)
+    summaryRDD.saveAsTextFile(outputDir)
 
   }
 }
